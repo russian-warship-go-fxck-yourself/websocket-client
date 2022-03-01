@@ -1,6 +1,6 @@
 const { io } = require("socket.io-client");
 const { Crawler } = require("./crawler");
-const { infiniteGenerator } = require("./helpers");
+const { infiniteCrawler} = require("./helpers");
 
 const socket = io(`http://localhost:3000/client`);
 
@@ -16,8 +16,9 @@ socket.on("targets", async (targets) => {
   const crawler = new Crawler(currentTarget);
 
   try {
-    for await (const i of infiniteGenerator()) {
-      await crawler.run();
+    for await (const i of infiniteCrawler()) {
+      const targetsLog = await crawler.run();
+      socket.emit("targets:log", { targetsLog });
     }
   } catch (e) {
     // pm2 will restart

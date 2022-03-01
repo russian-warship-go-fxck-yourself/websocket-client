@@ -1,17 +1,21 @@
 const { config } = require("./config");
 
-function* cycleGenerator() {
+function* cycles() {
   let i = 0;
   while (i < config.cyclesCount) {
     yield i++;
   }
 }
 
-function* infiniteGenerator(initial) {
-  yield initial++;
+function* infiniteCrawler() {
+  let index = 0;
+
+  while (true) {
+    yield index++;
+  }
 }
 
 module.exports = {
-  cycleGenerator,
-  infiniteGenerator,
+  cycles,
+  infiniteCrawler,
 };
